@@ -1,5 +1,6 @@
 package com.champsoft.universitydepartmentsystem.MapperLayer;
 
+import com.champsoft.universitydepartmentsystem.DTO.DepartmentRequestModel;
 import com.champsoft.universitydepartmentsystem.DataLayer.Department;
 import com.champsoft.universitydepartmentsystem.DTO.DepartmentResponseModel;
 import com.champsoft.universitydepartmentsystem.DTO.DepartmentWithProfessorsResponseDTO;
@@ -59,4 +60,14 @@ public class DepartmentMapper {
         );
     }
 
+    public Department toEntity(DepartmentRequestModel requestModel) {
+        // Use the custom entity constructor to set core fields.
+        // ID is left null (server-generated), and the professors collection is initialized as an empty HashSet.
+        return new Department(
+                requestModel.getName(),
+                requestModel.getCode(),
+                requestModel.getYearEstablished()
+                // The Department entity's custom constructor handles the initialization of the 'professors' Set.
+        );
+    }
 }

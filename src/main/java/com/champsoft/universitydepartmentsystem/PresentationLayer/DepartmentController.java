@@ -27,7 +27,7 @@ public class DepartmentController {
     // R6, R10: GET all -> 200 OK
     @GetMapping
     public List<DepartmentResponseModel> getAll() {
-        return departmentService.findAll();
+        return departmentService.getAllDepartments();
     }
 
     // R6, R10: GET one by id -> 200 OK (or 404 Not Found handled by @ControllerAdvice)
