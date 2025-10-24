@@ -5,12 +5,12 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Professor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private String firstName;
+    private Long id;
 
     @Column(nullable = false)
     private String lastName;
@@ -30,11 +30,12 @@ public class Professor {
      * Custom constructor for creating new Professor objects in the application,
      * specifically used for data seeding (like your Car constructor).
      */
-    public Professor(String firstName, String lastName, String email, String title, Department department) {
+    public Professor(String firstName, String lastName, String email, String title,Long id, Department department) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.title = title;
+        this.id=id;
         this.department = department;
     }
 }
