@@ -1,48 +1,49 @@
 package com.champsoft.universitydepartmentsystem.MapperLayer;
 
+import com.champsoft.universitydepartmentsystem.DTO.DepartmentSummary;
 import com.champsoft.universitydepartmentsystem.DTO.ProfessorRequestModel;
 import com.champsoft.universitydepartmentsystem.DataLayer.Department;
 import com.champsoft.universitydepartmentsystem.DataLayer.Professor;
-import com.champsoft.universitydepartmentsystem.DTO.DepartmentSummary;
 import com.champsoft.universitydepartmentsystem.DTO.ProfessorResponseModel;
 import org.springframework.stereotype.Component;
 
-// R4, R8: Mapper component for converting Professor entities to DTOs.
 @Component
 public class ProfessorMapper {
 
-    /**
-     * Converts a Professor Entity to the basic ProfessorResponseModel (used for GET all/one).
-     */
-    public ProfessorResponseModel ResponseModel(Professor professor) {
-        return new ProfessorResponseModel(
-                professor.getId(),
-                professor.getFirstName(),
-                professor.getLastName(),
-                professor.getEmail(),
-                professor.getTitle()
-        );
-    }
-
+    // Converts Entity -> Response DTO
     public ProfessorResponseModel toResponseModel(Professor professor) {
+        DepartmentSummary departmentSummary = null;
+        Long departmentId = null;
+
+        if (professor.getDepartment() != null) {
+            Department dept = professor.getDepartment();
+            departmentId = dept.getId();
+            departmentSummary = new DepartmentSummary(
+                    dept.getId(),
+                    dept.getName(),
+                    dept.getCode()
+            );
+        }
+
         return new ProfessorResponseModel(
                 professor.getId(),
                 professor.getFirstName(),
                 professor.getLastName(),
                 professor.getEmail(),
-                professor.getTitle()
+                professor.getTitle(),
+                departmentId,
+                departmentSummary
         );
     }
 
-    public Professor toEntity(ProfessorRequestModel requestModel) {
-
+    // Converts Request DTO -> Entity
+    public Professor toEntity(ProfessorRequestModel requestModel, Department department) {
         return new Professor(
                 requestModel.getFirstName(),
                 requestModel.getLastName(),
                 requestModel.getEmail(),
                 requestModel.getTitle(),
-                requestModel.getDepartmentId(),
-                null
+                department // ✅ use actual Department object, not an ID
         );
     }
 }

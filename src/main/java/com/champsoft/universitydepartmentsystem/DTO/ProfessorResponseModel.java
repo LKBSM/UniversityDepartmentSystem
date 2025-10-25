@@ -18,5 +18,7 @@ public class ProfessorResponseModel {
     private String lastName;
     private String email;
     private String title;
+    private Long departmentId; // Added for editing functionality
+    private DepartmentSummary department; // Added for display purposes
 }
 
