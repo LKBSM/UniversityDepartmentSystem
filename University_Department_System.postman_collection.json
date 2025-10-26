@@ -1,0 +1,313 @@
+{
+	"info": {
+		"_postman_id": "university-dept-system-2025",
+		"name": "University Department System API",
+		"description": "Complete API collection for University Department System - Spring Boot RESTful Web Service\n\nThis collection includes all CRUD operations for Departments and Professors, plus aggregated endpoints demonstrating the one-to-many relationship.\n\nCreated for: 420-N34_LA Java Web Programming\nAuthors: LKBSM & Lucagamerbest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Department Endpoints",
+			"item": [
+				{
+					"name": "GET All Departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/departments",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments"]
+						},
+						"description": "Retrieves a list of all departments in the system.\n\nExpected Response:\n- Status: 200 OK\n- Body: Array of DepartmentResponseModel objects"
+					},
+					"response": []
+				},
+				{
+					"name": "GET Department by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/departments/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments", "1"]
+						},
+						"description": "Retrieves a single department by its ID.\n\nExpected Response:\n- Status: 200 OK (if found)\n- Status: 404 Not Found (if missing)\n- Body: Single DepartmentResponseModel object"
+					},
+					"response": []
+				},
+				{
+					"name": "GET Department with Professors (Aggregated)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/departments/1/professors",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments", "1", "professors"]
+						},
+						"description": "Aggregated endpoint that retrieves a department with all its associated professors.\n\nThis demonstrates the one-to-many relationship (Department has many Professors).\n\nExpected Response:\n- Status: 200 OK\n- Body: DepartmentWithProfessorsResponseDTO (includes department info + list of professor summaries)"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Create Department",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Music Department\",\n  \"code\": \"MUSIC\",\n  \"yearEstablished\": 2015\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/departments",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments"]
+						},
+						"description": "Creates a new department.\n\nRequired fields:\n- name: String (not blank)\n- code: String (not blank, unique)\n- yearEstablished: Integer (between 1800-2100, optional)\n\nExpected Response:\n- Status: 201 Created\n- Header: Location with URL of created resource\n- Body: DepartmentResponseModel with auto-generated ID"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Department",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Music and Performing Arts\",\n  \"code\": \"MUSIC\",\n  \"yearEstablished\": 2015\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/departments/11",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments", "11"]
+						},
+						"description": "Updates an existing department (idempotent operation).\n\nRequired fields: Same as POST\n\nExpected Response:\n- Status: 200 OK (if successful)\n- Status: 404 Not Found (if department doesn't exist)\n- Body: Updated DepartmentResponseModel"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Department",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/departments/10",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments", "10"]
+						},
+						"description": "Deletes a department by ID.\n\nNote: Department ID 10 (Philosophy) has no professors and can be safely deleted.\nDepartments with professors may fail due to foreign key constraints.\n\nExpected Response:\n- Status: 204 No Content (if successful)\n- Status: 404 Not Found (if department doesn't exist)\n- Body: Empty"
+					},
+					"response": []
+				}
+			],
+			"description": "All CRUD operations for the Department resource.\n\nDepartment is the \"one\" side of the one-to-many relationship with Professor."
+		},
+		{
+			"name": "Professor Endpoints",
+			"item": [
+				{
+					"name": "GET All Professors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/professors",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors"]
+						},
+						"description": "Retrieves a list of all professors in the system.\n\nNote: Each ProfessorResponseModel includes the department information (DepartmentSummary), demonstrating the aggregated DTO pattern.\n\nExpected Response:\n- Status: 200 OK\n- Body: Array of ProfessorResponseModel objects (each includes department info)"
+					},
+					"response": []
+				},
+				{
+					"name": "GET Professor by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/professors/1",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors", "1"]
+						},
+						"description": "Retrieves a single professor by their ID.\n\nExpected Response:\n- Status: 200 OK (if found)\n- Status: 404 Not Found (if missing)\n- Body: Single ProfessorResponseModel object with department information"
+					},
+					"response": []
+				},
+				{
+					"name": "POST Create Professor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"s.connor@uni.ca\",\n  \"title\": \"Assistant Professor\",\n  \"departmentId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/professors",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors"]
+						},
+						"description": "Creates a new professor and assigns them to a department.\n\nRequired fields:\n- firstName: String (not blank)\n- lastName: String (not blank)\n- email: String (not blank, valid email format, unique)\n- title: String (optional)\n- departmentId: Long (must be a valid department ID)\n\nExpected Response:\n- Status: 201 Created\n- Header: Location with URL of created resource\n- Body: ProfessorResponseModel with auto-generated ID and department info"
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Professor",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"s.connor@uni.ca\",\n  \"title\": \"Full Professor\",\n  \"departmentId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/professors/13",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors", "13"]
+						},
+						"description": "Updates an existing professor (idempotent operation).\n\nRequired fields: Same as POST\n\nExpected Response:\n- Status: 200 OK (if successful)\n- Status: 404 Not Found (if professor doesn't exist)\n- Body: Updated ProfessorResponseModel"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Professor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/professors/13",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors", "13"]
+						},
+						"description": "Deletes a professor by ID.\n\nExpected Response:\n- Status: 204 No Content (if successful)\n- Status: 404 Not Found (if professor doesn't exist)\n- Body: Empty"
+					},
+					"response": []
+				}
+			],
+			"description": "All CRUD operations for the Professor resource.\n\nProfessor is the \"many\" side of the one-to-many relationship with Department."
+		},
+		{
+			"name": "Error Handling Tests",
+			"item": [
+				{
+					"name": "404 Not Found - Invalid Department ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/departments/999",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "departments", "999"]
+						},
+						"description": "Tests the NotFoundException handler.\n\nExpected Response:\n- Status: 404 Not Found\n- Body: ErrorResponse with timestamp, status, error message, and path"
+					},
+					"response": []
+				},
+				{
+					"name": "400 Bad Request - Validation Error",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"\",\n  \"lastName\": \"Test\",\n  \"email\": \"invalid-email\",\n  \"departmentId\": -1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/professors",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors"]
+						},
+						"description": "Tests the validation error handler.\n\nThis request has multiple validation errors:\n- firstName is blank\n- email is not a valid email format\n- departmentId is not positive\n\nExpected Response:\n- Status: 400 Bad Request\n- Body: ErrorResponse with field-level validation errors"
+					},
+					"response": []
+				},
+				{
+					"name": "409 Conflict - Duplicate Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Alice\",\n  \"lastName\": \"Smith\",\n  \"email\": \"a.smith@uni.ca\",\n  \"title\": \"Full Professor\",\n  \"departmentId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/professors",
+							"protocol": "http",
+							"host": ["localhost"],
+							"port": "8080",
+							"path": ["api", "professors"]
+						},
+						"description": "Tests the duplicate constraint handler.\n\nThis email (a.smith@uni.ca) already exists in the database.\n\nExpected Response:\n- Status: 409 Conflict\n- Body: ErrorResponse indicating duplicate resource"
+					},
+					"response": []
+				}
+			],
+			"description": "Tests for global exception handling:\n- 404 Not Found (NotFoundException)\n- 400 Bad Request (Validation errors)\n- 409 Conflict (Unique constraint violations)"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
