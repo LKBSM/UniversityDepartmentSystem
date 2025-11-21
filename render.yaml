@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: university-department-system-backend
+    env: java
+    plan: free
+    buildCommand: "./gradlew build -x test"
+    startCommand: "java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar build/libs/*.jar"
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
