@@ -44,7 +44,7 @@ function DepartmentDetail() {
   if (!department) return <div className="error">Department not found</div>;
 
   return (
-    <div>
+    <div className="detail-container">
       <div className="page-header">
         <h1>{department.name}</h1>
         <div>
@@ -54,7 +54,7 @@ function DepartmentDetail() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" style={{ padding: '2rem' }}>
         <div className="detail-grid">
           <div className="detail-item">
             <label>Department Code</label>
@@ -75,7 +75,7 @@ function DepartmentDetail() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" style={{ padding: '2rem', marginTop: '1.5rem' }}>
         <div className="professor-list">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
             <h2>Professors in this Department</h2>

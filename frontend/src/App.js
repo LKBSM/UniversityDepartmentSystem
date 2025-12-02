@@ -9,9 +9,12 @@ import Footer from './components/layout/Footer';
 // Department components
 import DepartmentList from './components/department/DepartmentList';
 import DepartmentDetail from './components/department/DepartmentDetail';
+import DepartmentForm from './components/department/DepartmentForm';
 
 // Professor components
 import ProfessorList from './components/professor/ProfessorList';
+import ProfessorDetail from './components/professor/ProfessorDetail';
+import ProfessorForm from './components/professor/ProfessorForm';
 
 // Other components
 import Home from './components/Home';
@@ -29,10 +32,15 @@ function App() {
 
             {/* Department routes */}
             <Route path="/departments" element={<DepartmentList />} />
+            <Route path="/departments/new" element={<DepartmentForm />} />
             <Route path="/departments/:id" element={<DepartmentDetail />} />
+            <Route path="/departments/:id/edit" element={<DepartmentForm />} />
 
             {/* Professor routes */}
             <Route path="/professors" element={<ProfessorList />} />
+            <Route path="/professors/new" element={<ProfessorForm />} />
+            <Route path="/professors/:id" element={<ProfessorDetail />} />
+            <Route path="/professors/:id/edit" element={<ProfessorForm />} />
           </Routes>
         </main>
         <Footer />

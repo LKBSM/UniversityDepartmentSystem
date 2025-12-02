@@ -84,12 +84,12 @@ function DepartmentForm() {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <div className="page-header">
         <h1>{isEditMode ? 'Edit Department' : 'Create New Department'}</h1>
       </div>
 
-      <div className="card">
+      <div className="card" style={{ padding: '2rem' }}>
         {error && <div className="error">{error}</div>}
 
         <form onSubmit={handleSubmit}>

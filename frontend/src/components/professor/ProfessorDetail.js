@@ -44,7 +44,7 @@ function ProfessorDetail() {
   if (!professor) return <div className="error">Professor not found</div>;
 
   return (
-    <div>
+    <div className="detail-container">
       <div className="page-header">
         <h1>{professor.firstName} {professor.lastName}</h1>
         <div>
@@ -54,7 +54,7 @@ function ProfessorDetail() {
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" style={{ padding: '2rem' }}>
         <div className="detail-grid">
           <div className="detail-item">
             <label>First Name</label>
