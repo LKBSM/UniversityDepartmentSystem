@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'UniversityDepartmentSystem'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Lombok (Keep as is)
+    compileOnly 'org.projectlombok:lombok' // Gradle manages version if using Spring Boot parent pom
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Spring Boot Starters (Keep as is)
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // **CRITICAL CHANGE:** Add the MySQL Connector/J driver for TiDB Cloud
+    // This replaces mariadb-java-client and postgresql
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // **REMOVED:**
+    // - Removed 'com.h2database:h2' (You are using TiDB Cloud, not a local H2 DB)
+    // - Removed 'org.mariadb.jdbc:mariadb-java-client' (Using MySQL Connector/J instead)
+    // - Removed 'org.postgresql:postgresql' (No longer using PostgreSQL)
+
+    // Testing Dependencies (Keep as is)
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
